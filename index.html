@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1 id="h1">Hello World</h1>
+
+<input id ="btn" type ="button" name ="send" value="Send" onclick="submitMessage()">
+<input id = "msg" type ="text" name ="message" value="">
+
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    var socket = io.connect();
+    $(document).ready(function(){
+        //function(data) is the data passed in from the server
+        socket.on('updateHeader',function(data){
+            //now it can do whatever you want, or in this case update the header
+            console.log('updateHeader called: ' + data);
+            document.getElementById('h1'),innerHTML = data;
+        });
+    });
+
+    function submitMessage(){
+        var message = $('#msg').val();
+        console.log(message);
+        socket.emit('sendmsg',message);
+    }
+</script>
+
+</body>
+</html>
